@@ -51,5 +51,30 @@ def load_txt_from_zip(extracted_dir:str, filename: str) -> pd.DataFrame:
     df = pd.read_csv(file_path, delimiter='|', low_memory=False )
     return df
 
+def load_data(outer_zip_path: str, filename: str) -> pd.DataFrame:
+    """
+    Orchestrates the extraction and loading of data from a nested zip file.
 
+    Args:
+        outer_zip_path (str): Path to the outer zip file.
+        filename (str): The name of the TXT file to load.
+
+    Returns:
+        pd.DataFrame: The processed data as a pandas DataFrame.
+    """
+    try:
+        # Create a directory for extracted files
+        extract_to = "../data/"
+        os.makedirs(extract_to, exist_ok=True)
+        
+        # Extract the nested zip file and any files within
+        extract_nested_zip(outer_zip_path, extract_to)
+        
+        # Load the TXT file from the extracted directory
+        df = load_txt_from_zip(extract_to, filename)
+
+        return df
+    
+    except Exception as e:
+        raise RuntimeError(f'Error loading data: {str(e)}')
     
