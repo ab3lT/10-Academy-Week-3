@@ -1,7 +1,7 @@
 import os
 import zipfile
 import io
-
+import pandas as pd
 
 
 def extract_zip(zip_file_path: str, extract_to: str) -> None:
@@ -34,5 +34,13 @@ def extract_nested_zip(outer_zip_path: str, extract_to: str) -> None:
             else:
                 # Extract regular files
                 outer_zip.extract(file_info, extract_to)
-        
+
+def load_txt_from_zip(extracted_dir:str, filename: str) -> pd.DataFrame:
+
+    file_path = os.path.join(extracted_dir, filename)
+    
+    df = pd.read_csv(file_path, delimiter='|', low_memory=False )
+    return df
+
+
     
