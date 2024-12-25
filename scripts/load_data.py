@@ -36,9 +36,18 @@ def extract_nested_zip(outer_zip_path: str, extract_to: str) -> None:
                 outer_zip.extract(file_info, extract_to)
 
 def load_txt_from_zip(extracted_dir:str, filename: str) -> pd.DataFrame:
+    """
+    Loads a pipe-separated TXT file from the extracted directory into a pandas DataFrame.
 
+    Args:
+        extracted_dir (str): The directory where the zip contents were extracted.
+        filename (str): The name of the TXT file to load.
+
+    Returns:
+        pd.DataFrame: The loaded data as a pandas DataFrame.
+    """
     file_path = os.path.join(extracted_dir, filename)
-    
+     # Load the .txt file as pipe-separated (|)
     df = pd.read_csv(file_path, delimiter='|', low_memory=False )
     return df
 
