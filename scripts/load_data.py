@@ -16,15 +16,23 @@ def extract_zip(zip_file_path: str, extract_to: str) -> None:
         zip_ref.extractall(extract_to)
        
 def extract_nested_zip(outer_zip_path: str, extract_to: str) -> None:
+    """
+    Extracts a zip file and any nested zip files within it.
+
+    Args:
+        outer_zip_path (str): Path to the outer zip file.
+        extract_to (str): Directory where the contents will be extracted.
+    """
     with zipfile.ZipFile(outer_zip_path, 'r') as outer_zip:
         for file_info in outer_zip.infolist():
             if file_info.filename.endswith(".zip"):
-                
+                # Handle the nested zip
                 with outer_zip.open(file_info.filename) as nested_zip_file:
                     nested_zip_data = io.BytesIO(nested_zip_file.read())
                     with zipfile.ZipFile(nested_zip_data, 'r') as nested_zip:
                         nested_zip.extractall(extract_to)
             else:
+                # Extract regular files
                 outer_zip.extract(file_info, extract_to)
         
     
