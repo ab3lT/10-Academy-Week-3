@@ -10,6 +10,7 @@ def extract_zip(zip_file_path: str, extract_to: str) -> None:
 
     Args:
         zip_file_path (str): The path to the zip file.
+        
         extract_to (str): The directory where the zip contents will be extracted.
     """
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
